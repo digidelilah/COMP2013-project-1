@@ -1,23 +1,25 @@
 //displays single product card with 
-import { useState} from "react";
-import QuantityCounter from "./QuantityCounter";
+
+import { useState } from "react";
 
 //button will add to the cart and update cart
-//if item is already in cart it will update the quantity instead of adding a new item
+//if item is already in cart it will update the quantity 
+//instead of adding a new item
 
-export default function ProductCard( {products} )
-{
-    const [product] = useState(products);
-    //name , image, brand,quantity counter, price and add to cart button \
+export default function ProductCard({product}) {
     return (
         <div className="productCard">
-            <h2>{product.name}</h2>
+            <h1>{product.productName}</h1>
             <img src={product.image} alt={product.name} />
-            <h3>{product.brand}</h3>
-            <QuantityCounter/>
-            <p>${product.price}</p>
+            <h2>{product.brand}</h2>
+            
+            <p>Price: {product.price}</p>
             <button>Add to Cart</button>
-            </div>
-    );
+        </div>
+    )
 }
 
+
+/*const [productQuantity, setQuantity] = useState({
+        quantity
+    });*/

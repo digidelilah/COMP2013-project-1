@@ -2,14 +2,13 @@
 
 import ProductCard from "./ProductCard";
 
-export default function ProductsContainer( {products} )
+export default function ProductsContainer({products})
 {
     return (
-        <div className="productsContainer">
-            {products.map( (product) => 
-                <ProductCard key={product.id} {...product} />
-            )}
+        <div className="ProductsContainer">
+            {products.map((product) => (
+                <ProductCard key={product.id} {...product}/>
+            ))}
         </div>
-
     );
 }
