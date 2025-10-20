@@ -4,21 +4,21 @@
 
 //Brynn Landry 
 
-export default function QuantityCounter({
-    productQuantity,
-    handleAddQuality,
-    handleremoveQuality,
+export default function QuanityCounter({
+    productQuanity,
+    handleAddQuanity,
+    handleremoveQuanity,
     id,
     mode,
 }){
     return(
-        <div className="ProductQuantityDiv">
-            <div>
-                <button onClick={() => handleremoveQuality(id, mode)}>-</button>
+        <div className="ProductQuanityDiv">
+            <div className="QuantityBtn">
+                <button onClick={() => handleremoveQuanity(id, mode)}>-</button>
             </div>
-            <p>{productQuantity}</p>
-            <div>
-                <button onClick={() => handleAddQuality(id, mode)}>+</button>
+            <p>{productQuanity}</p>
+            <div className="QuantityBtn">
+                <button onClick={() => handleAddQuanity(id, mode)}>+</button>
             </div>
         </div>
     );
