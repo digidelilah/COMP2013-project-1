@@ -2,8 +2,13 @@
 
 import ProductCard from "./ProductCard";
 
-export default function ProductsContainer({products, productQuantity,handleAddQuanity, 
-  handleremoveQuanity})
+export default function ProductsContainer({
+  products, 
+  productQuantity,
+  handleAddQuanity, 
+  handleremoveQuanity,
+  handleAddToCart,
+})
 {
     return (
         <div className="ProductsContainer">
@@ -12,6 +17,7 @@ export default function ProductsContainer({products, productQuantity,handleAddQu
                  productQuantity={productQuantity}
                  handleAddQuanity={handleAddQuanity}
                  handleremoveQuanity={handleremoveQuanity}
+                 handleAddToCart = {handleAddToCart}
                 />
             ))}
         </div>

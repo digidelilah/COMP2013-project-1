@@ -16,12 +16,13 @@ export default function ProductCard({
   quantity,
   handleAddQuanity,
   handleremoveQuanity,
+  handleAddToCart,
 }) {
   return (
     <div className="ProductCard">
-      <h1>{productName}</h1>
+      <h2>{productName}</h2>
       <img src={image} />
-      <h2>{brand}</h2>
+      <h3>{brand}</h3>
       <QuantityCounter
         productQuanity={quantity}
         handleAddQuanity={handleAddQuanity}
@@ -29,7 +30,9 @@ export default function ProductCard({
         id={id}
       />
       <p>Price: {price}</p>
-      <button>Add to Cart</button>
+      <button onClick={()=>handleAddToCart(productQuantity)}>
+        Add to Cart
+      </button>
     </div>
   );
 }
