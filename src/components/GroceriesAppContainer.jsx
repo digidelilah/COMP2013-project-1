@@ -7,95 +7,116 @@ import { useState } from "react";
 import products from "../data/products.js";
 import ProductsContainer from "./ProductsContainer";
 import CartContainer from "./CartContainer.jsx";
+import NavBar from "./NavBar.jsx";
 
 export default function GroceriesApp() {
-  const [productQuanity, setProductQuantity] = useState(
+   
+  const [productQuantity, setProductQuantity] = useState(
     products.map((product) => ({
       ...product,
-      quantity: 0, //the quantity is always zero as the data is different in this project
+      quantity:0, 
     }))
   );
 
-  //cart state with empty array 
-  const [cart,setcart] = useState([]);
 
+  const [cart, setcart] = useState([]);
 
-
-  const handleOnChangePrice = (productId, e) => {
-    const newProductQuantity = productQuanity.map((product) => {
-      if (product.id === productId) {
-        return { ...product, currentPrice: e.target.value };
-      }
-      return product;
-    });
-    setProductQuantity(newProductQuantity);
-    return;
-  };
 
   const handleAddQuanity = (productId, mode) => {
-    //you forgot mode here as a parameter. Will be needed later in the cart
-    const newProductQuantity = productQuanity.map((product) => {
+    if (mode === "cart") {
+    const newCart = cart.map((item) => {
+      if (item.id === productId) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+    setcart(newCart);
+  } else {
+    const newProductQuantity = productQuantity.map((product) => {
       if (product.id === productId) {
         return { ...product, quantity: product.quantity + 1 };
       }
       return product;
     });
     setProductQuantity(newProductQuantity);
-    return;
-  };
+  }
+};
 
   const handleremoveQuanity = (productId, mode) => {
-    //you forgot mode here as a parameter. Will be needed later in the cart
-    const newProductQuantity = productQuanity.map((product) => {
-      if (product.id === productId && product.quantity > 0) {
-        return { ...product, quantity: product.quantity - 1 };
-      }
-      return product;
-    });
-    setProductQuantity(newProductQuantity);
-    return;
+    if (mode === "cart") {
+    const updatedCart = cart.map((item) =>
+      item.id === productId && item.quantity > 0
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setcart(updatedCart);
+  } else {
+    const updatedProducts = productQuantity.map((product) =>
+      product.id === productId && product.quantity > 0
+        ? { ...product, quantity: product.quantity - 1 }
+        : product
+    );
+    setProductQuantity(updatedProducts);
+  }
+};
+
+ 
+  const handleAddToCart = (productToAdd) => {
+    const currentProduct = productQuantity.find((prod) => prod.id === productToAdd.id);
+    const productInCart = cart.find(
+      (product) => product.id === productToAdd.id
+    );
+    if (productToAdd.quantity === 0) {
+      alert("Please add quantity before adding to cart!");
+      return;
+    }
+
+    if (!productInCart) {
+      setcart((prevCart) => {
+        return [
+          ...prevCart,
+          { ...currentProduct, quantity: productToAdd.quantity },
+        ];
+      });
+    }
   };
 
-  //adding product to cart
- const handleAddToCart = (productToAdd) => {
-    //1. click button and add to cart if product is not there
-    //2. if product is there, quantity will go up 
-    //3. if user adds to cart but quantity is zero, send alert
-    const currentProduct = product.find((prod) => prod.id === productToAdd.id)
-      //to check if it in in cart
-    const productInCart = cart.find((product) => product.id === productToAdd.id) 
-    if(productToAdd === 0){
-        alert("Please add quantity before adding to cart!");
-        return;
-    }
- 
-    if(!productInCart){
-        setcart((prevCart) => {
-            return [...prevCart, 
-                {...currentProduct,
-                    quantity: productToAdd
-                }]
-        })
-    }
+  const handleRemoveFromCart = (cartItem) =>{
+    const filteredCart = cart.filter((item) => item.id !== cartItem.id);
+    setcart(filteredCart);
+ }
+
+ const handleRemoveAll = () =>{
+    setcart([]);
  };
 
   return (
-    
-    <div className="groceriesAppContainer">
-        <div>
-            <ProductsContainer
-            products={productQuanity}
-            handleAddQuanity={handleAddQuanity}
-            handleremoveQuanity={handleremoveQuanity}
-            //handleOnChangePrice={handleOnChangePrice}
-            setProductQuantity={setProductQuantity}
-            handleAddToCart = {handleAddToCart}
-            />    
-      </div>
-      <div>
-        <h3>Cart</h3>
-        <CartContainer cart={cart}/>
-      </div>
+   
+    <div >
+        <div className="NavDiv">
+            <NavBar cart ={cart}/>
+        </div>
+        <div className="GroceriesApp-Container">
+            <div>
+                <ProductsContainer
+                    products={productQuantity}
+                    handleAddQuanity={handleAddQuanity}
+                    handleremoveQuanity={handleremoveQuanity}
+                    setProductQuantity={setProductQuantity}
+                    handleAddToCart={handleAddToCart}
+                />
+            </div>
+            <div>
+                <h3>Cart</h3>
+                <p>{cart.length === 0 && "Cart is empty!"}</p>
+                <CartContainer cart={cart} 
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleAddQuanity={handleAddQuanity}
+                    handleremoveQuanity={handleremoveQuanity}
+                    handleRemoveAll = {handleRemoveAll}
+                />
+            </div>
+        </div>
     </div>
   );
 }

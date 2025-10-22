@@ -4,11 +4,12 @@ import NavBar from "./components/NavBar";
 import ProductsContainer from "./components/ProductsContainer";
 import products from "./data/products";
 
+
 function App() {
   return <>
-    <NavBar/>
+     
     <GroceriesApp products={products}/>
-    //<ProductsContainer products={products}/>
+    
   </>;
 }
 

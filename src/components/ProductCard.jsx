@@ -28,15 +28,14 @@ export default function ProductCard({
         handleAddQuanity={handleAddQuanity}
         handleremoveQuanity={handleremoveQuanity}
         id={id}
+        mode = "product"
       />
       <p>Price: {price}</p>
-      <button onClick={()=>handleAddToCart(productQuantity)}>
+      <button onClick={() => handleAddToCart({ id, quantity })}>
         Add to Cart
       </button>
     </div>
   );
 }
 
-/*const [productQuantity, setQuantity] = useState({
-        quantity
-    });*/
+
